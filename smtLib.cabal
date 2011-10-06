@@ -1,0 +1,46 @@
+Name:           smtLib
+Version:        0.1
+License:        AllRightsReserved
+Author:         Iavor S. Diatchki
+Maintainer:     diatchki@galois.com
+Category:       SMT
+Synopsis:       A library for working with the SMTLIB format.
+Description:    A library for working with the SMTLIB format.
+Build-type:     Simple
+Cabal-version: >= 1.8
+Extra-source-files:
+  LICENSE,
+  README,
+  CHANGES
+
+library
+  hs-source-dirs: src
+
+  exposed-modules:
+    SMTLib1
+    SMTLib2
+
+  other-modules:
+    SMTLib1.AST
+    SMTLib1.PP
+    SMTLib2.AST
+    SMTLib2.PP
+
+  build-depends:
+    base,
+    pretty
+
+
+  GHC-options:    -O2 -Wall
+
+
+executable smtLib-test
+
+  hs-source-dirs: test
+
+  main-is: Test.hs
+
+  build-depends:
+    base,
+    smtLib,
+    process

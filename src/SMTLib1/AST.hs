@@ -91,29 +91,66 @@ data Script = Script { scrName :: Ident, scrCommands :: [Command] }
 -- operations associated with the classes.
 
 -- Strings
-instance IsString Name      where fromString = N
+instance IsString Name      where fromString x = N x
 instance IsString Ident     where fromString x = I (fromString x) []
-instance IsString Term      where fromString   = Lit . fromString
-instance IsString Literal   where fromString = LitStr
+instance IsString Term      where fromString x = Lit (LitStr x)
 
--- Integers
-instance Num Literal where
-  fromInteger = LitNum
-  (+)     = error "Literal: (+)"
-  (*)     = error "Literal: (*)"
-  signum  = error "Literal: signum"
-  abs     = error "Literal: abs"
-
+-- Integral operations
 instance Num Term where
-  fromInteger = Lit . fromInteger
-  (+)     = error "Term: (+)"
-  (*)     = error "Term: (*)"
-  signum  = error "Term: signum"
-  abs     = error "Term: abs"
+  fromInteger = Lit . LitNum
+  x + y       = App "+" [x,y]
+  x - y       = App "-" [x,y]
+  x * y       = App "*" [x,y]
+  signum x    = App "signum" [x]
+  abs x       = App "abs" [x]
 
 -- Fractional numbers
-instance Fractional Literal where fromRational = LitFrac . fromRational
-instance Fractional Term    where fromRational = Lit . fromRational
+instance Fractional Term where
+  fromRational  = Lit . LitFrac . fromRational
+  x / y         = App "/" [x,y]
+
+
+(===) :: Term -> Term -> Formula
+x === y   = FPred "=" [x,y]
+
+(=/=) :: Term -> Term -> Formula
+x =/= y   = FPred "distinct" [x,y]
+
+-- | For 'Int'
+(.<.) :: Term -> Term -> Formula
+x .<. y   = FPred "<" [x,y]
+
+-- | For 'Int'
+(.>.) :: Term -> Term -> Formula
+x .>. y   = FPred ">" [x,y]
+
+tInt :: Sort
+tInt = "Int"
+
+tBool :: Sort
+tBool = "Bool"
+
+
+funDef :: Ident -> [Sort] -> Sort -> Command
+funDef x as b = CmdExtraFuns [ FunDecl { funName = x
+                                       , funArgs = as
+                                       , funRes = b
+                                       , funAnnots = []
+                                       } ]
+
+constDef :: Ident -> Sort -> Command
+constDef x t = funDef x [] t
+
+
+logic :: Ident -> Command
+logic = CmdLogic
+
+assume :: Formula -> Command
+assume = CmdAssumption
+
+goal :: Formula -> Command
+goal = CmdFormula
+
 
 
 

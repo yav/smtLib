@@ -1,5 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 import SMTLib1
+import SMTLib1.QF_BV
 import System.Process
 import System.IO
 
@@ -12,8 +13,11 @@ main =
 
 script :: Script
 script = Script "Test"
-  [ CmdExtraFuns [ FunDecl "f" [] "Int" [] ]
-  , CmdAssumption $ FPred "=" [ App "f" [], 0 ]
-  , CmdFormula $ FPred "=" [ App "f" [], 0 ]
+  [ logic "QF_BV"
+  , constDef "x" (tBitVec 8)
+  , assume (c "x" === bv 0 8)
+  , goal (c "x" ===  bv 256 8)
   ]
+
+c x = App x []
 

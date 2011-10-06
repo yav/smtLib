@@ -10,10 +10,10 @@ instance PP Name where
   pp (N x) = text x
 
 instance PP Ident where
-  pp (I x is) = pp x <+> case is of
-                           [] -> empty
-                           _  -> brackets $ hcat $ punctuate (char ':')
-                                                 $ map integer is
+  pp (I x is) = pp x <> case is of
+                          [] -> empty
+                          _  -> brackets $ hcat $ punctuate (char ':')
+                                                $ map integer is
 
 instance PP Quant where
   pp Forall = text "forall"

@@ -1,7 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
-module SMTLib1.QF_BV where
+module SMTLib1.QF_BV (module X, module SMTLib1.QF_BV) where
 
-import SMTLib1.AST
+import SMTLib1 as X
 import GHC.Exts(IsString(..))
 
 

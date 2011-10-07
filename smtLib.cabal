@@ -19,6 +19,7 @@ library
   exposed-modules:
     SMTLib1
     SMTLib1.QF_BV
+    SMTLib1.QF_AUFBV
     SMTLib2
 
   other-modules:

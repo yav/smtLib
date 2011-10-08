@@ -109,6 +109,8 @@ instance Fractional Term where
   fromRational  = Lit . LitFrac . fromRational
   x / y         = App "/" [x,y]
 
+--------------------------------------------------------------------------------
+-- XXX: move to a separate module?
 
 (===) :: Term -> Term -> Formula
 x === y   = FPred "=" [x,y]
@@ -129,6 +131,29 @@ tInt = "Int"
 
 tBool :: Sort
 tBool = "Bool"
+
+true :: Term
+true = App "true" []
+
+false :: Term
+false = App "false" []
+
+not :: Term -> Term
+not t = App "not" [t]
+
+and :: Term -> Term -> Term
+and s t = App "and" [s,t]
+
+or :: Term -> Term -> Term
+or s t = App "or" [s,t]
+
+xor :: Term -> Term -> Term
+xor s t = App "xor" [s,t]
+
+implies :: Term -> Term -> Term
+implies s t = App "implies" [s,t]
+
+
 
 
 funDef :: Ident -> [Sort] -> Sort -> Command

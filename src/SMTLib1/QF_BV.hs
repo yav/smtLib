@@ -8,11 +8,15 @@ import GHC.Exts(IsString(..))
 tBitVec :: Integer -> Sort
 tBitVec n = I "BitVec" [n]
 
--- | False
+isBitVec :: Sort -> Maybe Integer
+isBitVec (I "BitVec" [n]) = Just n
+isBitVec _                = Nothing
+
+-- | BitVec[1]
 bit0 :: Term
 bit0 = App "bit0" []
 
--- | True
+-- | BitVec[1]
 bit1 :: Term
 bit1 = App "bit1" []
 

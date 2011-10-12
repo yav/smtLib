@@ -28,7 +28,7 @@ extract :: Integer -> Integer -> Term -> Term
 extract i j t = App (I "extract" [i,j]) [t]
 
 bvnot :: Term -> Term
-bvnot t = App "not" [t]
+bvnot t = App "bvnot" [t]
 
 bvand :: Term -> Term -> Term
 bvand s t = App "bvand" [s,t]
@@ -54,12 +54,13 @@ bvurem s t = App "bvurem" [s,t]
 bvshl :: Term -> Term -> Term
 bvshl s t = App "bvshl" [s,t]
 
-bvshr :: Term -> Term -> Term
-bvshr s t = App "bvshr" [s,t]
+bvlshr :: Term -> Term -> Term
+bvlshr s t = App "bvlshr" [s,t]
 
 
 bv :: Integer -> Integer -> Term
-bv x m = App (I (fromString ("bv" ++ show x)) [m]) []
+bv x m = if x >= 0 then lit x else bvneg (lit (negate x))
+  where lit y = App (I (fromString ("bv" ++ show y)) [m]) []
 
 bvnand :: Term -> Term -> Term
 bvnand s t = App "bvnand" [s,t]

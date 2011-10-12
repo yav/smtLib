@@ -31,7 +31,7 @@ instance PP Conn where
       IfThenElse -> text "if_then_else"
 
 instance PP Binder where
-  pp (Bind x t) = parens (pp x <+> pp t)
+  pp (Bind x t) = parens (char '?' <> pp x <+> pp t)
 
 instance PP Formula where
   pp form =
@@ -46,7 +46,10 @@ instance PP Formula where
     ppUnwrap form1 =
       case form1 of
         Conn c fs     -> pp c <+> fsep (map pp fs)
-        Quant q bs f  -> pp q <+> fsep (map pp bs) <+> pp f
+        Quant q bs f  ->
+          case bs of
+            [] -> pp f
+            _  -> pp q <+> fsep (map pp bs) <+> pp f
         Let x t f     -> text "let" <+> parens (char '?' <> pp x <+> pp t)
                       $$ pp f
         FLet x f1 f2  -> text "flet" <+> parens (char '$' <> pp x <+> pp f1)

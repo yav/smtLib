@@ -129,33 +129,6 @@ x .>. y   = FPred ">" [x,y]
 tInt :: Sort
 tInt = "Int"
 
-tBool :: Sort
-tBool = "Bool"
-
-true :: Term
-true = App "true" []
-
-false :: Term
-false = App "false" []
-
-not :: Term -> Term
-not t = App "not" [t]
-
-and :: Term -> Term -> Term
-and s t = App "and" [s,t]
-
-or :: Term -> Term -> Term
-or s t = App "or" [s,t]
-
-xor :: Term -> Term -> Term
-xor s t = App "xor" [s,t]
-
-implies :: Term -> Term -> Term
-implies s t = App "implies" [s,t]
-
-
-
-
 funDef :: Ident -> [Sort] -> Sort -> Command
 funDef x as b = CmdExtraFuns [ FunDecl { funName = x
                                        , funArgs = as

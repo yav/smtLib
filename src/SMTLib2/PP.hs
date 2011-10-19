@@ -3,6 +3,7 @@ module SMTLib2.PP where
 import SMTLib2.AST
 import Text.PrettyPrint
 import Numeric
+import Data.List(genericReplicate)
 
 class PP t where
   pp :: t -> Doc
@@ -19,6 +20,10 @@ ppString = text . show
 
 instance PP Name where
   pp (N x) = text x
+
+instance PP Ident where
+  pp (I x []) = pp x
+  pp (I x is) = parens (char '_' <+> pp x <+> fsep (map integer is))
 
 instance PP Attr where
   pp (Attr x v) = char ':' <> pp x <+> maybe empty pp v
@@ -77,13 +82,17 @@ instance PP Literal where
   pp lit =
     case lit of
 
-      LitNum n fmt ->
-        case fmt of
-          Dec -> integer n
-          Hex -> text "#x" <> text (showHex n "")
-          Bin -> text "#b" <> text (showIntAtBase 2 (head . show) n "")
+      LitBV n w ->
+        case divMod w 4 of
+          (x,0) -> text "#x" <> text (pad x (showHex n ""))
+          _ -> text "#b" <> text (pad w (showIntAtBase 2 (head . show) n ""))
 
-      LitFrac x -> text (show x)
+        where pad digs xs = genericReplicate
+                                (digs - fromIntegral (length xs)) '0' ++ xs
+
+      LitNum n -> integer n
+
+      LitFrac x -> text (show (fromRational x :: Double))  -- XXX: Good enough?
 
       LitStr x -> ppString x
 

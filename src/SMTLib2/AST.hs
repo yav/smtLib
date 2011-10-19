@@ -16,6 +16,9 @@ import GHC.Exts(IsString(..))
 newtype Name  = N String
                 deriving (Eq,Ord,Show)
 
+data Ident    = I Name [Integer]
+                deriving (Eq,Ord,Show)
+
 data Quant    = Exists | Forall
                 deriving (Eq,Ord,Show)
 
@@ -25,21 +28,18 @@ data Binder   = Bind { bindVar :: Name, bindType :: Type }
 data Defn     = Defn { defVar :: Name, defExpr :: Expr }
                 deriving (Eq,Ord,Show)
 
-
-data Format   = Dec | Hex | Bin
-                deriving (Eq,Ord,Show)
-
-data Literal  = LitNum Integer Format
-              | LitFrac Double     -- Is this good enough?
+data Literal  = LitBV Integer Integer   -- ^ value, width (in bits)
+              | LitNum Integer
+              | LitFrac Rational
               | LitStr String
                 deriving (Eq,Ord,Show)
 
-data Type     = TApp Name [Type]
+data Type     = TApp Ident [Type]
               | TVar Name
                 deriving (Eq,Ord,Show)
 
 data Expr     = Lit Literal
-              | App Name (Maybe Type) [Expr]
+              | App Ident (Maybe Type) [Expr]
               | Quant Quant [Binder] Expr
               | Let [Defn] Expr
               | Annot Expr [Attr]
@@ -105,28 +105,33 @@ newtype Script = Script [Command]
 -- operations associated with the classes.
 
 -- Strings
-instance IsString Name      where fromString = N
-instance IsString Expr      where fromString = Lit . fromString
-instance IsString Literal   where fromString = LitStr
+instance IsString Name      where fromString   = N
+instance IsString Ident     where fromString x = I (fromString x) []
+instance IsString Type      where fromString x = TApp (fromString x) []
+instance IsString Expr      where fromString   = Lit . LitStr . fromString
 
 -- Integers
-instance Num Literal where
-  fromInteger x = LitNum x Dec
-  (+)     = error "Literal: (+)"
-  (*)     = error "Literal: (*)"
-  signum  = error "Literal: signum"
-  abs     = error "Literal: abs"
 
+-- NOTE: Some of these might not mean anything, depending on the theory.
 instance Num Expr where
-  fromInteger = Lit . fromInteger
-  (+)     = error "Expr: (+)"
-  (*)     = error "Expr: (*)"
-  signum  = error "Expr: signum"
-  abs     = error "Expr: abs"
+  fromInteger x = Lit (LitNum x)
+  x + y         = app "+"      [x,y]
+  x - y         = app "-"      [x,y]
+  x * y         = app "*"      [x,y]
+  signum x      = app "signum" [x]
+  abs x         = app "abs"    [x]
+
 
 -- Fractional numbers
-instance Fractional Literal where fromRational = LitFrac . fromRational
-instance Fractional Expr    where fromRational = Lit . fromRational
+instance Fractional Expr where
+  fromRational x  = Lit (LitFrac x)
+  x / y           = app "/" [x,y]
+
+app :: Ident -> [Expr] -> Expr
+app f es = App f Nothing es
+
+
+
 
 
 

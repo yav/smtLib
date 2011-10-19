@@ -84,7 +84,9 @@ instance PP Literal where
 
       LitBV n w ->
         case divMod w 4 of
-          (x,0) -> text "#x" <> text (pad x (showHex n ""))
+          -- For the moment we do not print using HEX literals as
+          -- some solvers do not support them (how hard is that???)
+          -- (x,0) -> text "#x" <> text (pad x (showHex n ""))
           _ -> text "#b" <> text (pad w (showIntAtBase 2 (head . show) n ""))
 
         where pad digs xs = genericReplicate

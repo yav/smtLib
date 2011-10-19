@@ -39,11 +39,22 @@ library
   GHC-options:    -O2 -Wall
 
 
-executable smtLib-test
+executable smtLib-test-1
 
   hs-source-dirs: test
 
-  main-is: Test.hs
+  main-is: Test1.hs
+
+  build-depends:
+    base,
+    smtLib,
+    process
+
+executable smtLib-test-2
+
+  hs-source-dirs: test
+
+  main-is: Test2.hs
 
   build-depends:
     base,

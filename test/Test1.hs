@@ -1,5 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
-import SMTLib1.QF_AUFBV
+import SMTLib1.QF_AUFBV as BV
 import System.Process
 import System.IO
 
@@ -8,18 +8,15 @@ main =
   do let txt = show (pp script)
      putStrLn txt
      putStrLn (replicate 80 '-')
-     putStrLn =<< readProcess "yices" ["-smt", "-tc"] txt
+     -- putStrLn =<< readProcess "yices" ["-smt", "-tc"] txt
+     putStrLn =<< readProcess "yices" ["-f"] txt
 
 
 script :: Script
 script = Script "Test"
   [ logic "QF_AUFBV"
-  , constDef "a" (tArray 4 7)
-  , constDef "i" (tBitVec 4)
-  , constDef "v" (tBitVec 7)
-  , assume (c "v" === bv 6 7)
-  , assume (select (c "a") (c "i") === bv 6 7)
-  , goal   (select (c "a") (c "i") === c "v")
+  , constDef "a" (tBitVec 8)
+  , goal (BV.concat (bv 1 8) (bv 3 8) === bv 259 16)
   ]
 
 

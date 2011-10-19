@@ -49,7 +49,7 @@ instance PP Formula where
         Quant q bs f  ->
           case bs of
             [] -> pp f
-            _  -> pp q <+> fsep (map pp bs) <+> pp f
+            _  -> pp q <+> sep (map pp bs) <+> pp f
         Let x t f     -> text "let" <+> parens (char '?' <> pp x <+> pp t)
                       $$ pp f
         FLet x f1 f2  -> text "flet" <+> parens (char '$' <> pp x <+> pp f1)
@@ -116,15 +116,20 @@ instance PP Command where
       CmdExtraSorts s -> many "extrasorts" s
       CmdExtraFuns  f -> many "extrafuns" f
       CmdExtraPreds p -> many "extrapreds" p
-      CmdNotes s      -> mk "notes" (char '"' <> text (concatMap esc s)
-                                                                  <> char '"')
-        where esc '"' = "\\\""
-              esc c   = [c]
+      CmdNotes s      -> mk "notes" (str s)
       CmdAnnot a      -> pp a
+
     where mk x d    = char ':' <> text x <+> d
+
           std x n   = mk x (pp n)
+
+          many _ [] = empty
           many x ns = mk x (parens (vcat (map pp ns)))
 
+          esc '"'   = "\\\""
+          esc c     = [c]
+
+          str s     = (char '"' <> text (concatMap esc s) <> char '"')
 
 
 

@@ -34,16 +34,12 @@ data Literal  = LitNum Integer Format
               | LitStr String
                 deriving (Eq,Ord,Show)
 
-data QName    = Name Name
-              | TypedName Name Type
-                deriving (Eq,Ord,Show)
-
 data Type     = TApp Name [Type]
               | TVar Name
                 deriving (Eq,Ord,Show)
 
 data Expr     = Lit Literal
-              | App QName [Expr]
+              | App Name (Maybe Type) [Expr]
               | Quant Quant [Binder] Expr
               | Let [Defn] Expr
               | Annot Expr [Attr]

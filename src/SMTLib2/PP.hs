@@ -27,21 +27,20 @@ instance PP Quant where
   pp Forall = text "forall"
   pp Exists = text "exists"
 
-instance PP QName where
-  pp (Name x)         = pp x
-  pp (TypedName x t)  = parens (text "as" <+> pp x <+> pp t)
-
-
 instance PP Expr where
   pp expr =
     case expr of
 
       Lit l     -> pp l
 
-      App c ts  ->
+      App c ty ts  ->
         case ts of
-          [] -> pp c
-          _  -> parens (pp c <+> fsep (map pp ts))
+          [] -> ppFun
+          _  -> parens (ppFun <+> fsep (map pp ts))
+
+        where ppFun = case ty of
+                        Nothing -> pp c
+                        Just t  -> parens (text "as" <+> pp c <+> pp t)
 
       Quant q bs e ->
         case bs of

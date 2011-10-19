@@ -116,7 +116,10 @@ instance PP Command where
       CmdExtraSorts s -> many "extrasorts" s
       CmdExtraFuns  f -> many "extrafuns" f
       CmdExtraPreds p -> many "extrapreds" p
-      CmdNotes s      -> mk "notes" (text (show s))
+      CmdNotes s      -> mk "notes" (char '"' <> text (concatMap esc s)
+                                                                  <> char '"')
+        where esc '"' = "\\\""
+              esc c   = [c]
       CmdAnnot a      -> pp a
     where mk x d    = char ':' <> text x <+> d
           std x n   = mk x (pp n)

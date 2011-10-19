@@ -88,7 +88,7 @@ instance PP Literal where
   pp lit =
     case lit of
       LitNum n  -> integer n
-      LitFrac x -> text (show x)
+      LitFrac x -> text (show (fromRational x :: Double)) -- XXX: Good enough?
       LitStr x  -> text (show x)
 
 instance PP FunDecl where

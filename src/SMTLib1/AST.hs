@@ -49,7 +49,7 @@ data Term     = Var Name
                 deriving (Eq,Ord,Show)
 
 data Literal  = LitNum Integer
-              | LitFrac Double     -- Is this good enough?
+              | LitFrac Rational
               | LitStr String
                 deriving (Eq,Ord,Show)
 

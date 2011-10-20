@@ -86,11 +86,13 @@ instance PP Literal where
         case divMod w 4 of
           -- For the moment we do not print using HEX literals as
           -- some solvers do not support them (how hard is that???)
-          -- (x,0) -> text "#x" <> text (pad x (showHex n ""))
-          _ -> text "#b" <> text (pad w (showIntAtBase 2 (head . show) n ""))
+          -- (x,0) -> text "#x" <> text (pad x (showHex v ""))
+          _ -> text "#b" <> text (pad w (showIntAtBase 2 (head . show) v ""))
 
         where pad digs xs = genericReplicate
                                 (digs - fromIntegral (length xs)) '0' ++ xs
+
+              v = if n < 0 then 2^w + n else n
 
       LitNum n -> integer n
 

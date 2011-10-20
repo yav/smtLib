@@ -81,17 +81,17 @@ bvashr x y = app "bvashr" [x,y]
 repeat :: Integer -> Expr -> Expr -> Expr
 repeat i x y = app (I "repeat" [i]) [x,y]
 
-zero_extend :: Integer -> Expr -> Expr -> Expr
-zero_extend i x y = app (I "zero_extend" [i]) [x,y]
+zero_extend :: Integer -> Expr -> Expr
+zero_extend i x = app (I "zero_extend" [i]) [x]
 
-sign_extend :: Integer -> Expr -> Expr -> Expr
-sign_extend i x y = app (I "sign_extend" [i]) [x,y]
+sign_extend :: Integer -> Expr -> Expr
+sign_extend i x = app (I "sign_extend" [i]) [x]
 
-rotate_left :: Integer -> Expr -> Expr -> Expr
-rotate_left i x y = app (I "rotate_left" [i]) [x,y]
+rotate_left :: Integer -> Expr -> Expr
+rotate_left i x = app (I "rotate_left" [i]) [x]
 
-rotate_right :: Integer -> Expr -> Expr -> Expr
-rotate_right i x y = app (I "rotate_right" [i]) [x,y]
+rotate_right :: Integer -> Expr -> Expr
+rotate_right i x = app (I "rotate_right" [i]) [x]
 
 bvule :: Expr -> Expr -> Expr
 bvule x y = app "bvule" [x,y]

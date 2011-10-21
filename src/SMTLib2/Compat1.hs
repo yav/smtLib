@@ -162,7 +162,8 @@ command com =
                        _ -> err (text "Annotation in predicate declaration" <+>
                                   V1.pp com)
 
-    V1.CmdNotes {}    -> err (text "Unsupported comment. We should fix this!")
+    -- XXX: For now, we just ignore comments
+    V1.CmdNotes {}    -> pure []
 
     V1.CmdAnnot a     -> one . V2.CmdSetInfo <$> annot a
 

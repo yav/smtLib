@@ -45,8 +45,8 @@ bvadd s t = App "bvadd" [s,t]
 bvmul :: Term -> Term -> Term
 bvmul s t = App "bvmul" [s,t]
 
-bvdiv :: Term -> Term -> Term
-bvdiv s t = App "bvdiv" [s,t]
+bvudiv :: Term -> Term -> Term
+bvudiv s t = App "bvudiv" [s,t]
 
 bvurem :: Term -> Term -> Term
 bvurem s t = App "bvurem" [s,t]

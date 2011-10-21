@@ -21,6 +21,7 @@ library
     SMTLib1.QF_BV
     SMTLib1.QF_AUFBV
     SMTLib2
+    SMTLib2.Compat1
     SMTLib2.Core
     SMTLib2.BitVector
     SMTLib2.Array

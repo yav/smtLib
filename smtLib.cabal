@@ -7,7 +7,6 @@ Maintainer:     iavor.diatchki@gmail.com
 Category:       SMT
 Synopsis:       A library for working with the SMTLIB format.
 Description:    A library for working with the SMTLIB format.
-Source-repository: git://github.com/yav/smtLib.git
 Build-type:     Simple
 Cabal-version: >= 1.8
 Extra-source-files:
@@ -40,6 +39,9 @@ library
 
   GHC-options:    -O2 -Wall
 
+source-repository head
+  type:     git
+  location: git://github.com/yav/smtLib.git
 
 executable smtLib-test-1
 

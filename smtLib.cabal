@@ -1,5 +1,5 @@
 Name:           smtLib
-Version:        1.0
+Version:        1.0.1
 License:        BSD3
 License-file:   LICENSE
 Author:         Iavor S. Diatchki
@@ -43,24 +43,3 @@ source-repository head
   type:     git
   location: git://github.com/yav/smtLib.git
 
-executable smtLib-test-1
-
-  hs-source-dirs: test
-
-  main-is: Test1.hs
-
-  build-depends:
-    base    < 5,
-    smtLib,
-    process
-
-executable smtLib-test-2
-
-  hs-source-dirs: test
-
-  main-is: Test2.hs
-
-  build-depends:
-    base    < 5,
-    smtLib,
-    process

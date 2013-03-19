@@ -8,22 +8,24 @@
 -- URL:
 -- http://goedel.cs.uiowa.edu/smtlib/papers/format-v1.2-r06.08.05.pdf
 
-{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE OverloadedStrings, DeriveDataTypeable #-}
 module SMTLib1.AST where
 
+import Data.Typeable
+import Data.Data
 import GHC.Exts(IsString(..))
 
 newtype Name  = N String
-                deriving (Eq,Ord,Show)
+                deriving (Eq,Ord,Show,Data,Typeable)
 
 data Ident    = I Name [Integer]
-                deriving (Eq,Ord,Show)
+                deriving (Eq,Ord,Show,Data,Typeable)
 
 data Quant    = Exists | Forall
-                deriving (Eq,Ord,Show)
+                deriving (Eq,Ord,Show,Data,Typeable)
 
 data Conn     = Not | Implies | And | Or | Xor | Iff | IfThenElse
-                deriving (Eq,Ord,Show)
+                deriving (Eq,Ord,Show,Data,Typeable)
 
 data Formula  = FTrue
               | FFalse
@@ -34,40 +36,43 @@ data Formula  = FTrue
               | Let Name Term Formula
               | FLet Name Formula Formula
               | FAnnot Formula [Annot]
-                deriving (Eq,Ord,Show)
+                deriving (Eq,Ord,Show,Data,Typeable)
 
 type Sort     = Ident
 
 data Binder   = Bind { bindVar :: Name, bindSort :: Sort }
-                deriving (Eq,Ord,Show)
+                deriving (Eq,Ord,Show,Data,Typeable)
 
 data Term     = Var Name
               | App Ident [Term]
               | Lit Literal
               | ITE Formula Term Term
               | TAnnot Term [Annot]
-                deriving (Eq,Ord,Show)
+                deriving (Eq,Ord,Show,Data,Typeable)
 
 data Literal  = LitNum Integer
               | LitFrac Rational
               | LitStr String
-                deriving (Eq,Ord,Show)
+                deriving (Eq,Ord,Show,Data,Typeable)
 
 data Annot    = Attr { attrName :: Name, attrVal :: Maybe String }
-                deriving (Eq,Ord,Show)
+                deriving (Eq,Ord,Show,Data,Typeable)
 
 data FunDecl  = FunDecl { funName   :: Ident
                         , funArgs   :: [Sort]
                         , funRes    :: Sort
                         , funAnnots :: [Annot]
                         }
+  deriving (Data,Typeable)
 
 data PredDecl = PredDecl { predName   :: Ident
                          , predArgs   :: [Sort]
                          , predAnnots :: [Annot]
                          }
+  deriving (Data,Typeable)
 
 data Status   = Sat | Unsat | Unknown
+  deriving (Data,Typeable)
 
 data Command
   = CmdLogic Ident
@@ -79,6 +84,7 @@ data Command
   | CmdExtraPreds [ PredDecl ]
   | CmdNotes String
   | CmdAnnot Annot
+  deriving (Data,Typeable)
 
 -- aka "benchmark"
 data Script = Script { scrName :: Ident, scrCommands :: [Command] }

@@ -8,45 +8,47 @@
 -- URL:
 -- http://goedel.cs.uiowa.edu/smtlib/papers/smt-lib-reference-v2.0-r10.12.21.pdf
 
-{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE OverloadedStrings, DeriveDataTypeable #-}
 module SMTLib2.AST where
 
+import Data.Typeable
+import Data.Data
 import GHC.Exts(IsString(..))
 
 newtype Name  = N String
-                deriving (Eq,Ord,Show)
+                deriving (Eq,Ord,Show,Data,Typeable)
 
 data Ident    = I Name [Integer]
-                deriving (Eq,Ord,Show)
+                deriving (Eq,Ord,Show,Data,Typeable)
 
 data Quant    = Exists | Forall
-                deriving (Eq,Ord,Show)
+                deriving (Eq,Ord,Show,Data,Typeable)
 
 data Binder   = Bind { bindVar :: Name, bindType :: Type }
-                deriving (Eq,Ord,Show)
+                deriving (Eq,Ord,Show,Data,Typeable)
 
 data Defn     = Defn { defVar :: Name, defExpr :: Expr }
-                deriving (Eq,Ord,Show)
+                deriving (Eq,Ord,Show,Data,Typeable)
 
 data Literal  = LitBV Integer Integer   -- ^ value, width (in bits)
               | LitNum Integer
               | LitFrac Rational
               | LitStr String
-                deriving (Eq,Ord,Show)
+                deriving (Eq,Ord,Show,Data,Typeable)
 
 data Type     = TApp Ident [Type]
               | TVar Name
-                deriving (Eq,Ord,Show)
+                deriving (Eq,Ord,Show,Data,Typeable)
 
 data Expr     = Lit Literal
               | App Ident (Maybe Type) [Expr]
               | Quant Quant [Binder] Expr
               | Let [Defn] Expr
               | Annot Expr [Attr]
-                deriving (Eq,Ord,Show)
+                deriving (Eq,Ord,Show,Data,Typeable)
 
 data Attr     = Attr { attrName :: Name , attrVal :: Maybe AttrVal }
-                deriving (Eq,Ord,Show)
+                deriving (Eq,Ord,Show,Data,Typeable)
 
 type AttrVal  = Expr    -- A bit of an approximation....
 
@@ -64,6 +66,7 @@ data Option
   | OptRandomSeed Integer
   | OptVerbosity Integer
   | OptAttr Attr
+  deriving (Data,Typeable)
 
 data InfoFlag
   = InfoAllStatistics
@@ -74,6 +77,7 @@ data InfoFlag
   | InfoStatus
   | InfoReasonUnknown
   | InfoAttr Attr
+  deriving (Data,Typeable)
 
 data Command
   = CmdSetLogic Name
@@ -94,6 +98,7 @@ data Command
   | CmdGetInfo InfoFlag
   | CmdGetOption Name
   | CmdExit
+  deriving (Data,Typeable)
 
 newtype Script = Script [Command]
 

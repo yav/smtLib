@@ -1,3 +1,4 @@
+{-# LANGUAGE Safe #-}
 module SMTLib2.PP where
 
 import SMTLib2.AST

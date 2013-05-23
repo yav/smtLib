@@ -1,4 +1,4 @@
-{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE OverloadedStrings, Safe #-}
 module SMTLib1.QF_AUFBV (module SMTLib1.QF_AUFBV, module X) where
 
 import SMTLib1.QF_BV as X

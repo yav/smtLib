@@ -8,10 +8,10 @@
 -- URL:
 -- http://goedel.cs.uiowa.edu/smtlib/papers/smt-lib-reference-v2.0-r10.12.21.pdf
 
-{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE OverloadedStrings, Safe #-}
 module SMTLib2.AST where
 
-import GHC.Exts(IsString(..))
+import Data.String(IsString(..))
 
 newtype Name  = N String
                 deriving (Eq,Ord,Show)

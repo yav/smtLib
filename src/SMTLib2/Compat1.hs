@@ -1,3 +1,4 @@
+{-# LANGUAGE Safe #-}
 module SMTLib2.Compat1 where
 
 import qualified SMTLib1.AST as V1

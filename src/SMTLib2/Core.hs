@@ -1,4 +1,4 @@
-{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE OverloadedStrings, Safe #-}
 module SMTLib2.Core where
 
 import SMTLib2.AST

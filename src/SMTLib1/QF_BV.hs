@@ -1,8 +1,8 @@
-{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE OverloadedStrings, Safe #-}
 module SMTLib1.QF_BV (module X, module SMTLib1.QF_BV) where
 
 import SMTLib1 as X
-import GHC.Exts(IsString(..))
+import Data.String(IsString(..))
 
 
 tBitVec :: Integer -> Sort

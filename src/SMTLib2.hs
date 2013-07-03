@@ -1,6 +1,24 @@
 {-# LANGUAGE Safe #-}
-module SMTLib2 (module X) where
+module SMTLib2
+  ( Script(..)
+  , Binder(..)
+  , Defn(..)
+  , Type(..)
+  , Expr(..)
 
-import SMTLib2.AST as X
-import SMTLib2.PP as X
+  , Name(..)
+  , Ident(..)
+  , Quant(..)
+  , Literal(..)
+  , Attr(..)
+  , AttrVal
+  , Command(..)
+  , Option(..)
+  , InfoFlag(..)
+
+  , app
+  ) where
+
+import SMTLib2.AST
+import SMTLib2.PP()
 

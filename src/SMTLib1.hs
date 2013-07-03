@@ -1,6 +1,33 @@
 {-# LANGUAGE Safe #-}
-module SMTLib1 (module X) where
+module SMTLib1
+  ( Name(..)
+  , Ident(..)
+  , Quant(..)
+  , Conn(..)
+  , Formula(..)
+  , Sort
+  , Binder(..)
+  , Term(..)
+  , Literal(..)
+  , Annot(..)
+  , FunDecl(..)
+  , PredDecl(..)
+  , Status(..)
+  , Command(..)
+  , Script(..)
 
-import SMTLib1.AST as X
-import SMTLib1.PP as X
+  , (===)
+  , (=/=)
+  , (.<.)
+  , (.>.)
+  , tInt
+  , funDef
+  , constDef
+  , logic
+  , assume
+  , goal
+  ) where
+
+import SMTLib1.AST
+import SMTLib1.PP()
 

@@ -17,8 +17,10 @@ module SMTLib2
   , InfoFlag(..)
 
   , app
+
+  , PP(..)
   ) where
 
 import SMTLib2.AST
-import SMTLib2.PP()
+import SMTLib2.PP
 

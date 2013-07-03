@@ -26,8 +26,10 @@ module SMTLib1
   , logic
   , assume
   , goal
+
+  , PP(..)
   ) where
 
 import SMTLib1.AST
-import SMTLib1.PP()
+import SMTLib1.PP
 

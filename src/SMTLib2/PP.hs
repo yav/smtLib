@@ -140,7 +140,7 @@ instance PP Command where
   pp cmd =
     case cmd of
       CmdSetLogic n     -> std "set-logic" n
-      CmdSetOption o    -> std "set-options" o
+      CmdSetOption o    -> std "set-option" o
       CmdSetInfo a      -> std "set-info" a
       CmdDeclareType x n    -> mk "declare-sort" (pp x <+> integer n)
       CmdDefineType x as t  -> fun "define-sort" x as (pp t)

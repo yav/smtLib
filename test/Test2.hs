@@ -19,6 +19,7 @@ script = Script
   , CmdDeclareFun "x" [] (tBitVec 4)
   , CmdAssert (c "x" === bv 3 4)
   , CmdCheckSat
+  , CmdComment "hooray"
   , CmdExit
   ]
 

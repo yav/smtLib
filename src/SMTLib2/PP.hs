@@ -156,11 +156,13 @@ instance PP Command where
       CmdGetUnsatCore   -> one "get-unsat-core"
       CmdGetInfo i      -> std "get-info" i
       CmdGetOption n    -> std "get-option" n
+      CmdComment s      -> vcat (map comment (lines s))
       CmdExit           -> one "exit"
     where mk x d = parens (text x <+> d)
           one x   = mk x empty
           std x a = mk x (pp a)
           fun x y as d = mk x (pp y <+> parens (fsep (map pp as)) <+> d)
+          comment s = text ";" <+> text s
 
 instance PP Script where
   pp (Script cs) = vcat (map pp cs)

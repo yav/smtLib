@@ -93,6 +93,7 @@ data Command
   | CmdGetUnsatCore
   | CmdGetInfo InfoFlag
   | CmdGetOption Name
+  | CmdComment String
   | CmdExit
 
 newtype Script = Script [Command]

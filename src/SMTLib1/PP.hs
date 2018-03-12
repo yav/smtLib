@@ -1,6 +1,7 @@
 {-# LANGUAGE Safe #-}
 module SMTLib1.PP where
 
+import Prelude hiding ((<>))
 import SMTLib1.AST
 import Text.PrettyPrint
 

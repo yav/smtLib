@@ -85,6 +85,7 @@ data Command
   | CmdSetInfo Attr
   | CmdDeclareType Name Integer
   | CmdDefineType Name [Name] Type
+  | CmdDeclareConst Name Type
   | CmdDeclareFun Name [Type] Type
   | CmdDefineFun Name [Binder] Type Expr
   | CmdPush Integer

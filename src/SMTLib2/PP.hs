@@ -145,6 +145,7 @@ instance PP Command where
       CmdSetInfo a      -> std "set-info" a
       CmdDeclareType x n    -> mk "declare-sort" (pp x <+> integer n)
       CmdDefineType x as t  -> fun "define-sort" x as (pp t)
+      CmdDeclareConst x t   -> mk "declare-const" (pp x <+> pp t)
       CmdDeclareFun x ts t  -> fun "declare-fun" x ts (pp t)
       CmdDefineFun x bs t e -> fun "define-fun" x bs (pp t $$ nest 2 (pp e))
       CmdPush n         -> std "push" n

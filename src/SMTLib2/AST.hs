@@ -87,6 +87,8 @@ data Command
   | CmdDefineType Name [Name] Type
   | CmdDeclareConst Name Type
   | CmdDeclareFun Name [Type] Type
+  | CmdDeclareDatatype Name [Name] [(Name, [(Name, Type)])]
+  | CmdDeclareDatatypes [(Name, Integer)] [([Name], [(Name, [(Name, Type)])])]
   | CmdDefineFun Name [Binder] Type Expr
   | CmdPush Integer
   | CmdPop Integer
@@ -136,9 +138,3 @@ instance Fractional Expr where
 
 app :: Ident -> [Expr] -> Expr
 app f es = App f Nothing es
-
-
-
-
-
-

@@ -147,6 +147,15 @@ instance PP Command where
       CmdDefineType x as t  -> fun "define-sort" x as (pp t)
       CmdDeclareConst x t   -> mk "declare-const" (pp x <+> pp t)
       CmdDeclareFun x ts t  -> fun "declare-fun" x ts (pp t)
+      CmdDeclareDatatype name tyvars constructors ->
+        mk "declare-datatype" $ vcat [pp name, par tyvars . sep $ map constructor constructors]
+      CmdDeclareDatatypes types constructors ->
+        mk "declare-datatypes" $
+        vcat [ parens . sep . map argType $ types
+             , parens . sep . map constructorFamily $ constructors
+             ]
+       where
+         constructorFamily (tyvars, cons) = par tyvars . sep $ map constructor cons
       CmdDefineFun x bs t e -> fun "define-fun" x bs (pp t $$ nest 2 (pp e))
       CmdPush n         -> std "push" n
       CmdPop n          -> std "pop" n
@@ -165,7 +174,11 @@ instance PP Command where
           std x a = mk x (pp a)
           fun x y as d = mk x (pp y <+> parens (fsep (map pp as)) <+> d)
           comment s = text ";" <+> text s
+          argType (x, t) = parens (pp x <+> pp t)
+          constructor (con, []) = pp con
+          constructor (con, args) = parens . sep $ pp con : map argType args
+          par [] doc = parens doc
+          par tyvars doc = parens (text "par" <+> parens (sep (map pp tyvars)) <+> doc)
 
 instance PP Script where
   pp (Script cs) = vcat (map pp cs)
-
